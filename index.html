@@ -23,6 +23,7 @@
         color: #0f172a;
         scroll-behavior: smooth;
         overflow-x: hidden;
+        line-height: 1.5;
       }
 
       canvas {
@@ -83,6 +84,10 @@
         border-color: #ea580c;
       }
 
+      .smart-wrap {
+        overflow-wrap: anywhere;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -117,9 +122,9 @@
         <div class="font-bold text-xl tracking-tight text-slate-800">
           <span class="text-orange-600">&#9881;</span> RustPrep 2028
         </div>
-        <div class="w-full sm:w-auto overflow-x-auto">
+        <div class="w-full sm:w-auto">
           <div
-            class="min-w-max flex items-center gap-4 text-sm font-medium pb-1 sm:pb-0"
+            class="flex flex-wrap sm:flex-nowrap items-center sm:justify-end gap-x-4 gap-y-2 text-sm font-medium"
           >
             <a href="#skills" class="hover:text-orange-600 transition-colors"
               >Skill Matrix</a
@@ -136,16 +141,16 @@
     </nav>
 
     <main
-      class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-16 sm:space-y-24"
+      class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-14 sm:space-y-24"
     >
       <header class="text-center max-w-3xl mx-auto space-y-6">
         <h1
-          class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight"
+          class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight"
         >
           Architect Your
           <span class="text-orange-600">Rust Engineering</span> Career
         </h1>
-        <p class="text-lg text-slate-600 leading-relaxed">
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
           By 2028, Rust will be deeply embedded in systems programming, backend
           infrastructure, WebAssembly, and high-performance tooling. This
           interactive guide translates industry demands into an actionable
@@ -156,7 +161,7 @@
       <section id="skills" class="scroll-mt-24">
         <div class="mb-8">
           <h2
-            class="text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1"
+            class="text-2xl sm:text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1"
           >
             The 2028 Target Skill Matrix
           </h2>
@@ -169,7 +174,7 @@
         </div>
 
         <div
-          class="grid md:grid-cols-2 gap-12 items-center bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200"
+          class="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-white p-4 sm:p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200"
         >
           <div class="chart-container">
             <canvas id="skillRadarChart"></canvas>
@@ -208,7 +213,7 @@
       <section id="resume" class="scroll-mt-24">
         <div class="mb-8">
           <h2
-            class="text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1"
+            class="text-2xl sm:text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1"
           >
             The Benchmark 2028 Resume
           </h2>
@@ -223,7 +228,7 @@
 
         <div class="grid lg:grid-cols-5 gap-8">
           <div
-            class="lg:col-span-3 bg-white p-5 sm:p-8 border shadow-lg mx-auto w-full max-w-3xl transform transition-transform hover:scale-[1.01]"
+            class="lg:col-span-3 bg-white p-4 sm:p-8 border shadow-lg mx-auto w-full max-w-3xl transform transition-transform md:hover:scale-[1.01]"
           >
             <div class="border-b-2 border-slate-800 pb-4 mb-6 text-center">
               <h1
@@ -231,7 +236,7 @@
               >
                 ALEX DEVELOPER
               </h1>
-              <p class="text-sm text-slate-600 mt-1">
+              <p class="text-sm text-slate-600 mt-1 smart-wrap">
                 alex.dev@email.com | github.com/alexdev-rust |
                 linkedin.com/in/alexdev
               </p>
@@ -291,7 +296,7 @@
                   <h3 class="font-bold text-slate-800">
                     FerrisKV - Distributed Key-Value Store
                   </h3>
-                  <span class="text-xs text-slate-500"
+                  <span class="text-xs text-slate-500 smart-wrap"
                     >github.com/alexdev/ferriskv</span
                   >
                 </div>
@@ -318,7 +323,7 @@
                   class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1"
                 >
                   <h3 class="font-bold text-slate-800">WASM-ImageProcessor</h3>
-                  <span class="text-xs text-slate-500"
+                  <span class="text-xs text-slate-500 smart-wrap"
                     >github.com/alexdev/wasm-img</span
                   >
                 </div>
@@ -366,7 +371,9 @@
               >
                 Education
               </h2>
-              <div class="flex justify-between items-baseline">
+              <div
+                class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1"
+              >
                 <h3 class="font-bold text-slate-800">
                   B.Tech in Computer Science
                 </h3>
@@ -400,6 +407,7 @@
               </p>
               <div
                 id="insight-content"
+                aria-live="polite"
                 class="text-base text-slate-100 space-y-3"
               >
                 <em>Select a section on the left to begin...</em>
@@ -412,7 +420,7 @@
       <section id="roadmap" class="scroll-mt-24 pb-12">
         <div class="mb-8">
           <h2
-            class="text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1"
+            class="text-2xl sm:text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1"
           >
             Your 2026-2028 Preparation Roadmap
           </h2>
@@ -430,19 +438,19 @@
             class="flex flex-col sm:flex-row border-b border-slate-200 bg-slate-50"
           >
             <button
-              class="tab-btn active flex-1 py-4 text-center font-bold text-slate-600 hover:bg-slate-100 focus:outline-none"
+              class="tab-btn active flex-1 py-4 text-center font-bold text-sm sm:text-base text-slate-600 hover:bg-slate-100 focus:outline-none"
               data-year="2026"
             >
               2026: The Core Foundation
             </button>
             <button
-              class="tab-btn flex-1 py-4 text-center font-bold text-slate-600 border-t sm:border-t-0 sm:border-l border-slate-200 hover:bg-slate-100 focus:outline-none"
+              class="tab-btn flex-1 py-4 text-center font-bold text-sm sm:text-base text-slate-600 border-t sm:border-t-0 sm:border-l border-slate-200 hover:bg-slate-100 focus:outline-none"
               data-year="2027"
             >
               2027: Systems & Ecosystem
             </button>
             <button
-              class="tab-btn flex-1 py-4 text-center font-bold text-slate-600 border-t sm:border-t-0 sm:border-l border-slate-200 hover:bg-slate-100 focus:outline-none"
+              class="tab-btn flex-1 py-4 text-center font-bold text-sm sm:text-base text-slate-600 border-t sm:border-t-0 sm:border-l border-slate-200 hover:bg-slate-100 focus:outline-none"
               data-year="2028"
             >
               2028: Polish & Portfolio
@@ -716,6 +724,20 @@
           },
         });
 
+        const mediaQuery = window.matchMedia("(max-width: 640px)");
+        const updateChartLabelSize = () => {
+          radarChart.options.scales.r.pointLabels.font.size = mediaQuery.matches
+            ? 10
+            : 12;
+          radarChart.update("none");
+        };
+        updateChartLabelSize();
+        if (typeof mediaQuery.addEventListener === "function") {
+          mediaQuery.addEventListener("change", updateChartLabelSize);
+        } else {
+          mediaQuery.addListener(updateChartLabelSize);
+        }
+
         // Fallback click event for chart to update text block (better for mobile)
         document.getElementById("skillRadarChart").onclick = function (evt) {
           const res = radarChart.getElementsAtEventForMode(
@@ -753,17 +775,24 @@
 
         if (resumeSections.length > 0) {
           resumeSections[0].classList.add("active");
+          resumeSections[0].setAttribute("aria-selected", "true");
           const firstTargetId = resumeSections[0].getAttribute("data-target");
           insightPanel.innerHTML = resumeInsights[firstTargetId];
         }
 
         resumeSections.forEach((section) => {
           section.setAttribute("tabindex", "0");
+          section.setAttribute("role", "button");
+          section.setAttribute("aria-selected", "false");
           section.addEventListener("click", function () {
             // Remove active class from all
-            resumeSections.forEach((s) => s.classList.remove("active"));
+            resumeSections.forEach((s) => {
+              s.classList.remove("active");
+              s.setAttribute("aria-selected", "false");
+            });
             // Add active to clicked
             this.classList.add("active");
+            this.setAttribute("aria-selected", "true");
 
             // Update insight text
             const targetId = this.getAttribute("data-target");
@@ -786,6 +815,20 @@
         roadmapContent.innerHTML = roadmapData["2026"];
 
         tabBtns.forEach((btn) => {
+          btn.addEventListener("keydown", function (event) {
+            if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") {
+              return;
+            }
+
+            event.preventDefault();
+            const currentIndex = Array.from(tabBtns).indexOf(this);
+            const offset = event.key === "ArrowRight" ? 1 : -1;
+            const nextIndex =
+              (currentIndex + offset + tabBtns.length) % tabBtns.length;
+            tabBtns[nextIndex].focus();
+            tabBtns[nextIndex].click();
+          });
+
           btn.addEventListener("click", function () {
             // Update styling
             tabBtns.forEach((b) => {
