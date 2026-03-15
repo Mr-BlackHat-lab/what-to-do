@@ -1,13 +1,12 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rust Developer 2028 Prep & Resume Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <!-- Chosen Palette: Warm Neutral & Rust Accent (Slate-50 background, Slate-900 text, Orange-600 accent) -->
     <!-- Application Structure Plan: The SPA is structured as a strategic roadmap and interactive guide. It flows logically from macro-level industry requirements (Skill Matrix) to practical application (Interactive Resume), and concludes with a personalized timeline (2026-2028 Roadmap). This structure was chosen to help a student systematically understand the goal, see what the final deliverable looks like, and learn the exact steps to get there. -->
     <!-- Visualization & Content Choices: 
@@ -18,340 +17,571 @@
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <style>
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f8fafc;
-            color: #0f172a;
-            scroll-behavior: smooth;
-        }
+      body {
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
 
+      canvas {
+        max-width: 100%;
+      }
+
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 400px;
+        max-height: 400px;
+      }
+
+      @media (max-width: 640px) {
         .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 400px;
-            max-height: 400px;
+          height: 300px;
+          max-height: 300px;
         }
+      }
 
-        @media (max-width: 640px) {
-            .chart-container {
-                height: 300px;
-                max-height: 300px;
-            }
-        }
+      .resume-section {
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
 
-        .resume-section {
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
+      .resume-section.active {
+        border-color: #ea580c;
+        background-color: #fff7ed;
+      }
 
-        .resume-section:hover, .resume-section.active {
-            border-color: #ea580c;
-            background-color: #fff7ed;
-            transform: translateX(4px);
+      @media (hover: hover) {
+        .resume-section:hover {
+          border-color: #ea580c;
+          background-color: #fff7ed;
+          transform: translateX(4px);
         }
+      }
 
-        .tab-btn {
-            transition: all 0.2s;
-        }
+      a:focus-visible,
+      button:focus-visible,
+      .resume-section:focus-visible {
+        outline: 2px solid #ea580c;
+        outline-offset: 2px;
+        border-radius: 0.375rem;
+      }
 
-        .tab-btn.active {
-            background-color: #ea580c;
-            color: white;
-            border-color: #ea580c;
+      .tab-btn {
+        transition: all 0.2s;
+      }
+
+      .tab-btn.active {
+        background-color: #ea580c;
+        color: white;
+        border-color: #ea580c;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
         }
-        
-        /* Custom scrollbar for aesthetic */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
-        }
+      }
+
+      /* Custom scrollbar for aesthetic */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
     </style>
-</head>
-<body class="antialiased">
-
+  </head>
+  <body class="antialiased">
     <nav class="sticky top-0 z-50 bg-white shadow-sm border-b border-slate-200">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="font-bold text-xl tracking-tight text-slate-800">
-                <span class="text-orange-600">&#9881;</span> RustPrep 2028
-            </div>
-            <div class="space-x-4 text-sm font-medium">
-                <a href="#skills" class="hover:text-orange-600 transition-colors">Skill Matrix</a>
-                <a href="#resume" class="hover:text-orange-600 transition-colors">Interactive Resume</a>
-                <a href="#roadmap" class="hover:text-orange-600 transition-colors">2026-2028 Roadmap</a>
-            </div>
+      <div
+        class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-0 sm:h-16 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+      >
+        <div class="font-bold text-xl tracking-tight text-slate-800">
+          <span class="text-orange-600">&#9881;</span> RustPrep 2028
         </div>
+        <div class="w-full sm:w-auto overflow-x-auto">
+          <div
+            class="min-w-max flex items-center gap-4 text-sm font-medium pb-1 sm:pb-0"
+          >
+            <a href="#skills" class="hover:text-orange-600 transition-colors"
+              >Skill Matrix</a
+            >
+            <a href="#resume" class="hover:text-orange-600 transition-colors"
+              >Interactive Resume</a
+            >
+            <a href="#roadmap" class="hover:text-orange-600 transition-colors"
+              >2026-2028 Roadmap</a
+            >
+          </div>
+        </div>
+      </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+    <main
+      class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-16 sm:space-y-24"
+    >
+      <header class="text-center max-w-3xl mx-auto space-y-6">
+        <h1
+          class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight"
+        >
+          Architect Your
+          <span class="text-orange-600">Rust Engineering</span> Career
+        </h1>
+        <p class="text-lg text-slate-600 leading-relaxed">
+          By 2028, Rust will be deeply embedded in systems programming, backend
+          infrastructure, WebAssembly, and high-performance tooling. This
+          interactive guide translates industry demands into an actionable
+          roadmap and benchmark resume for your graduation year.
+        </p>
+      </header>
 
-        <header class="text-center max-w-3xl mx-auto space-y-6">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
-                Architect Your <span class="text-orange-600">Rust Engineering</span> Career
-            </h1>
-            <p class="text-lg text-slate-600 leading-relaxed">
-                By 2028, Rust will be deeply embedded in systems programming, backend infrastructure, WebAssembly, and high-performance tooling. This interactive guide translates industry demands into an actionable roadmap and benchmark resume for your graduation year.
-            </p>
-        </header>
+      <section id="skills" class="scroll-mt-24">
+        <div class="mb-8">
+          <h2
+            class="text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1"
+          >
+            The 2028 Target Skill Matrix
+          </h2>
+          <p class="mt-4 text-slate-600 max-w-2xl">
+            This section maps the expected proficiency levels for a competitive
+            entry-level Rust Developer in 2028. Understand which areas require
+            deep mastery versus functional familiarity. Interact with the chart
+            to see the breakdown.
+          </p>
+        </div>
 
-        <section id="skills" class="scroll-mt-24">
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1">The 2028 Target Skill Matrix</h2>
-                <p class="mt-4 text-slate-600 max-w-2xl">
-                    This section maps the expected proficiency levels for a competitive entry-level Rust Developer in 2028. Understand which areas require deep mastery versus functional familiarity. Interact with the chart to see the breakdown.
-                </p>
+        <div
+          class="grid md:grid-cols-2 gap-12 items-center bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200"
+        >
+          <div class="chart-container">
+            <canvas id="skillRadarChart"></canvas>
+          </div>
+          <div class="space-y-6">
+            <div
+              id="skill-detail-card"
+              class="bg-slate-50 p-6 rounded-xl border border-slate-200 min-h-[220px] sm:min-h-[250px] flex flex-col justify-center"
+            >
+              <h3 class="text-xl font-bold text-slate-800 mb-2">
+                Core Language Semantics
+              </h3>
+              <p class="text-slate-600 mb-4">
+                Ownership, borrowing, lifetimes, traits, and macros. This is the
+                non-negotiable foundation of all Rust development.
+              </p>
+              <ul class="text-sm text-slate-700 space-y-2">
+                <li>&#10003; Advanced understanding of the Borrow Checker</li>
+                <li>&#10003; Custom declarative and procedural macros</li>
+                <li>&#10003; Trait bounds and generic programming</li>
+              </ul>
+              <p
+                class="text-xs text-orange-600 mt-4 font-semibold uppercase tracking-wider"
+              >
+                Target Level: Mastery
+              </p>
+            </div>
+            <div class="text-sm text-slate-500 italic text-center">
+              * Data based on projected industry trends for high-performance
+              systems and backend infrastructure.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="resume" class="scroll-mt-24">
+        <div class="mb-8">
+          <h2
+            class="text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1"
+          >
+            The Benchmark 2028 Resume
+          </h2>
+          <p class="mt-4 text-slate-600 max-w-2xl">
+            Your resume is your API. It needs to efficiently communicate your
+            capabilities to engineering managers. Click on the highlighted
+            sections of the sample resume on the left to understand
+            <em>why</em> they are structured this way and
+            <em>what</em> recruiters look for.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-5 gap-8">
+          <div
+            class="lg:col-span-3 bg-white p-5 sm:p-8 border shadow-lg mx-auto w-full max-w-3xl transform transition-transform hover:scale-[1.01]"
+          >
+            <div class="border-b-2 border-slate-800 pb-4 mb-6 text-center">
+              <h1
+                class="text-2xl sm:text-3xl font-serif font-bold text-slate-900"
+              >
+                ALEX DEVELOPER
+              </h1>
+              <p class="text-sm text-slate-600 mt-1">
+                alex.dev@email.com | github.com/alexdev-rust |
+                linkedin.com/in/alexdev
+              </p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-12 items-center bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200">
-                <div class="chart-container">
-                    <canvas id="skillRadarChart"></canvas>
-                </div>
-                <div class="space-y-6">
-                    <div id="skill-detail-card" class="bg-slate-50 p-6 rounded-xl border border-slate-200 min-h-[250px] flex flex-col justify-center">
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">Core Language Semantics</h3>
-                        <p class="text-slate-600 mb-4">Ownership, borrowing, lifetimes, traits, and macros. This is the non-negotiable foundation of all Rust development.</p>
-                        <ul class="text-sm text-slate-700 space-y-2">
-                            <li>&#10003; Advanced understanding of the Borrow Checker</li>
-                            <li>&#10003; Custom declarative and procedural macros</li>
-                            <li>&#10003; Trait bounds and generic programming</li>
-                        </ul>
-                        <p class="text-xs text-orange-600 mt-4 font-semibold uppercase tracking-wider">Target Level: Mastery</p>
-                    </div>
-                    <div class="text-sm text-slate-500 italic text-center">
-                        * Data based on projected industry trends for high-performance systems and backend infrastructure.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="resume" class="scroll-mt-24">
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1">The Benchmark 2028 Resume</h2>
-                <p class="mt-4 text-slate-600 max-w-2xl">
-                    Your resume is your API. It needs to efficiently communicate your capabilities to engineering managers. Click on the highlighted sections of the sample resume on the left to understand <em>why</em> they are structured this way and <em>what</em> recruiters look for.
-                </p>
+            <div class="resume-section p-3 rounded mb-4" data-target="summary">
+              <h2
+                class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 uppercase tracking-wide"
+              >
+                Professional Summary
+              </h2>
+              <p class="text-sm text-slate-700 leading-tight">
+                Results-driven Software Engineer passing out in 2028,
+                specializing in high-performance backend systems and memory-safe
+                architecture using Rust. Proven ability to build concurrent,
+                fault-tolerant applications and contribute to open-source
+                infrastructure. Passionate about WebAssembly and distributed
+                systems.
+              </p>
             </div>
 
-            <div class="grid lg:grid-cols-5 gap-8">
-                
-                <div class="lg:col-span-3 bg-white p-8 border shadow-lg mx-auto w-full max-w-3xl transform transition-transform hover:scale-[1.01]">
-                    
-                    <div class="border-b-2 border-slate-800 pb-4 mb-6 text-center">
-                        <h1 class="text-3xl font-serif font-bold text-slate-900">ALEX DEVELOPER</h1>
-                        <p class="text-sm text-slate-600 mt-1">alex.dev@email.com | github.com/alexdev-rust | linkedin.com/in/alexdev</p>
-                    </div>
-
-                    <div class="resume-section p-3 rounded mb-4" data-target="summary">
-                        <h2 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 uppercase tracking-wide">Professional Summary</h2>
-                        <p class="text-sm text-slate-700 leading-tight">
-                            Results-driven Software Engineer passing out in 2028, specializing in high-performance backend systems and memory-safe architecture using Rust. Proven ability to build concurrent, fault-tolerant applications and contribute to open-source infrastructure. Passionate about WebAssembly and distributed systems.
-                        </p>
-                    </div>
-
-                    <div class="resume-section p-3 rounded mb-4" data-target="skills">
-                        <h2 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 uppercase tracking-wide">Technical Skills</h2>
-                        <div class="grid grid-cols-4 gap-2 text-sm text-slate-700">
-                            <div class="font-bold">Languages:</div>
-                            <div class="col-span-3">Rust, C++, Python, SQL, WebAssembly</div>
-                            <div class="font-bold">Ecosystem:</div>
-                            <div class="col-span-3">Tokio, Axum, Serde, SQLx, Tracing, Clap</div>
-                            <div class="font-bold">Infrastructure:</div>
-                            <div class="col-span-3">Docker, Kubernetes, Linux Internals, GitHub Actions, AWS</div>
-                        </div>
-                    </div>
-
-                    <div class="resume-section p-3 rounded mb-4" data-target="projects">
-                        <h2 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 uppercase tracking-wide">Key Projects</h2>
-                        
-                        <div class="mb-3">
-                            <div class="flex justify-between items-baseline">
-                                <h3 class="font-bold text-slate-800">FerrisKV - Distributed Key-Value Store</h3>
-                                <span class="text-xs text-slate-500">github.com/alexdev/ferriskv</span>
-                            </div>
-                            <ul class="list-disc list-inside text-sm text-slate-700 mt-1 space-y-1">
-                                <li>Architected a memory-safe, concurrent key-value store in Rust handling 10k+ ops/sec.</li>
-                                <li>Implemented a custom thread-pool and async networking layer using <strong>Tokio</strong> and TCP sockets.</li>
-                                <li>Designed a zero-copy serialization protocol leveraging <strong>Serde</strong>, reducing memory overhead by 40%.</li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between items-baseline">
-                                <h3 class="font-bold text-slate-800">WASM-ImageProcessor</h3>
-                                <span class="text-xs text-slate-500">github.com/alexdev/wasm-img</span>
-                            </div>
-                            <ul class="list-disc list-inside text-sm text-slate-700 mt-1 space-y-1">
-                                <li>Built a browser-based image manipulation tool compiling Rust to WebAssembly using <strong>wasm-bindgen</strong>.</li>
-                                <li>Achieved near-native processing speeds, outperforming standard JavaScript Canvas APIs by 3x.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="resume-section p-3 rounded mb-4" data-target="opensource">
-                        <h2 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 uppercase tracking-wide">Open Source Contributions</h2>
-                        <ul class="list-disc list-inside text-sm text-slate-700 space-y-1">
-                            <li><strong>Actix-Web:</strong> Resolved Issue #2045 related to header parsing, improving error handling clarity.</li>
-                            <li><strong>Rust-Clippy:</strong> Contributed a new lint rule to detect redundant heap allocations in loops.</li>
-                        </ul>
-                    </div>
-
-                    <div class="resume-section p-3 rounded" data-target="education">
-                        <h2 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 uppercase tracking-wide">Education</h2>
-                        <div class="flex justify-between items-baseline">
-                            <h3 class="font-bold text-slate-800">B.Tech in Computer Science</h3>
-                            <span class="text-sm text-slate-600">Graduating: May 2028</span>
-                        </div>
-                        <p class="text-sm text-slate-700 mt-1">University Name, Location | CGPA: 3.8/4.0</p>
-                        <p class="text-sm text-slate-500 italic mt-1">Relevant Coursework: Operating Systems, Distributed Systems, Compiler Design</p>
-                    </div>
+            <div class="resume-section p-3 rounded mb-4" data-target="skills">
+              <h2
+                class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 uppercase tracking-wide"
+              >
+                Technical Skills
+              </h2>
+              <div
+                class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-sm text-slate-700"
+              >
+                <div class="font-bold">Languages:</div>
+                <div class="col-span-1 sm:col-span-3">
+                  Rust, C++, Python, SQL, WebAssembly
                 </div>
-
-                <div class="lg:col-span-2 space-y-4">
-                    <div id="resume-insight-panel" class="bg-slate-800 text-slate-50 p-6 rounded-xl shadow-md sticky top-24 min-h-[300px]">
-                        <div class="flex items-center space-x-2 mb-4">
-                            <span class="text-2xl">&#128161;</span>
-                            <h3 class="text-xl font-bold text-orange-400">Recruiter Insights</h3>
-                        </div>
-                        <p class="text-slate-300 mb-6 text-sm">
-                            Click any highlighted section on the sample resume to understand the strategy behind it. A successful entry-level resume proves practical capability, not just theoretical knowledge.
-                        </p>
-                        <div id="insight-content" class="text-base text-slate-100 space-y-3">
-                            <em>Select a section on the left to begin...</em>
-                        </div>
-                    </div>
+                <div class="font-bold">Ecosystem:</div>
+                <div class="col-span-1 sm:col-span-3">
+                  Tokio, Axum, Serde, SQLx, Tracing, Clap
                 </div>
-            </div>
-        </section>
-
-        <section id="roadmap" class="scroll-mt-24 pb-12">
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1">Your 2026-2028 Preparation Roadmap</h2>
-                <p class="mt-4 text-slate-600 max-w-2xl">
-                    To build the resume above by 2028, you need a structured approach. This timeline breaks down your learning and building phases over the next two years. Click the tabs to track your progression.
-                </p>
+                <div class="font-bold">Infrastructure:</div>
+                <div class="col-span-1 sm:col-span-3">
+                  Docker, Kubernetes, Linux Internals, GitHub Actions, AWS
+                </div>
+              </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="flex border-b border-slate-200 bg-slate-50">
-                    <button class="tab-btn active flex-1 py-4 text-center font-bold text-slate-600 hover:bg-slate-100 focus:outline-none" data-year="2026">
-                        2026: The Core Foundation
-                    </button>
-                    <button class="tab-btn flex-1 py-4 text-center font-bold text-slate-600 border-l border-slate-200 hover:bg-slate-100 focus:outline-none" data-year="2027">
-                        2027: Systems & Ecosystem
-                    </button>
-                    <button class="tab-btn flex-1 py-4 text-center font-bold text-slate-600 border-l border-slate-200 hover:bg-slate-100 focus:outline-none" data-year="2028">
-                        2028: Polish & Portfolio
-                    </button>
-                </div>
-                
-                <div class="p-8 md:p-12">
-                    <div id="roadmap-content" class="space-y-6 animate-fade-in">
-                        <!-- Content injected via JS -->
-                    </div>
-                </div>
-            </div>
-        </section>
+            <div class="resume-section p-3 rounded mb-4" data-target="projects">
+              <h2
+                class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 uppercase tracking-wide"
+              >
+                Key Projects
+              </h2>
 
+              <div class="mb-3">
+                <div
+                  class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1"
+                >
+                  <h3 class="font-bold text-slate-800">
+                    FerrisKV - Distributed Key-Value Store
+                  </h3>
+                  <span class="text-xs text-slate-500"
+                    >github.com/alexdev/ferriskv</span
+                  >
+                </div>
+                <ul
+                  class="list-disc list-inside text-sm text-slate-700 mt-1 space-y-1"
+                >
+                  <li>
+                    Architected a memory-safe, concurrent key-value store in
+                    Rust handling 10k+ ops/sec.
+                  </li>
+                  <li>
+                    Implemented a custom thread-pool and async networking layer
+                    using <strong>Tokio</strong> and TCP sockets.
+                  </li>
+                  <li>
+                    Designed a zero-copy serialization protocol leveraging
+                    <strong>Serde</strong>, reducing memory overhead by 40%.
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div
+                  class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1"
+                >
+                  <h3 class="font-bold text-slate-800">WASM-ImageProcessor</h3>
+                  <span class="text-xs text-slate-500"
+                    >github.com/alexdev/wasm-img</span
+                  >
+                </div>
+                <ul
+                  class="list-disc list-inside text-sm text-slate-700 mt-1 space-y-1"
+                >
+                  <li>
+                    Built a browser-based image manipulation tool compiling Rust
+                    to WebAssembly using <strong>wasm-bindgen</strong>.
+                  </li>
+                  <li>
+                    Achieved near-native processing speeds, outperforming
+                    standard JavaScript Canvas APIs by 3x.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div
+              class="resume-section p-3 rounded mb-4"
+              data-target="opensource"
+            >
+              <h2
+                class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 uppercase tracking-wide"
+              >
+                Open Source Contributions
+              </h2>
+              <ul
+                class="list-disc list-inside text-sm text-slate-700 space-y-1"
+              >
+                <li>
+                  <strong>Actix-Web:</strong> Resolved Issue #2045 related to
+                  header parsing, improving error handling clarity.
+                </li>
+                <li>
+                  <strong>Rust-Clippy:</strong> Contributed a new lint rule to
+                  detect redundant heap allocations in loops.
+                </li>
+              </ul>
+            </div>
+
+            <div class="resume-section p-3 rounded" data-target="education">
+              <h2
+                class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 uppercase tracking-wide"
+              >
+                Education
+              </h2>
+              <div class="flex justify-between items-baseline">
+                <h3 class="font-bold text-slate-800">
+                  B.Tech in Computer Science
+                </h3>
+                <span class="text-sm text-slate-600">Graduating: May 2028</span>
+              </div>
+              <p class="text-sm text-slate-700 mt-1">
+                University Name, Location | CGPA: 3.8/4.0
+              </p>
+              <p class="text-sm text-slate-500 italic mt-1">
+                Relevant Coursework: Operating Systems, Distributed Systems,
+                Compiler Design
+              </p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-2 space-y-4">
+            <div
+              id="resume-insight-panel"
+              class="bg-slate-800 text-slate-50 p-6 rounded-xl shadow-md lg:sticky lg:top-24 min-h-[220px] sm:min-h-[300px]"
+            >
+              <div class="flex items-center space-x-2 mb-4">
+                <span class="text-2xl">&#128161;</span>
+                <h3 class="text-xl font-bold text-orange-400">
+                  Recruiter Insights
+                </h3>
+              </div>
+              <p class="text-slate-300 mb-6 text-sm">
+                Click any highlighted section on the sample resume to understand
+                the strategy behind it. A successful entry-level resume proves
+                practical capability, not just theoretical knowledge.
+              </p>
+              <div
+                id="insight-content"
+                class="text-base text-slate-100 space-y-3"
+              >
+                <em>Select a section on the left to begin...</em>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="roadmap" class="scroll-mt-24 pb-12">
+        <div class="mb-8">
+          <h2
+            class="text-3xl font-bold text-slate-800 border-b-2 border-orange-200 inline-block pb-1"
+          >
+            Your 2026-2028 Preparation Roadmap
+          </h2>
+          <p class="mt-4 text-slate-600 max-w-2xl">
+            To build the resume above by 2028, you need a structured approach.
+            This timeline breaks down your learning and building phases over the
+            next two years. Click the tabs to track your progression.
+          </p>
+        </div>
+
+        <div
+          class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+        >
+          <div
+            class="flex flex-col sm:flex-row border-b border-slate-200 bg-slate-50"
+          >
+            <button
+              class="tab-btn active flex-1 py-4 text-center font-bold text-slate-600 hover:bg-slate-100 focus:outline-none"
+              data-year="2026"
+            >
+              2026: The Core Foundation
+            </button>
+            <button
+              class="tab-btn flex-1 py-4 text-center font-bold text-slate-600 border-t sm:border-t-0 sm:border-l border-slate-200 hover:bg-slate-100 focus:outline-none"
+              data-year="2027"
+            >
+              2027: Systems & Ecosystem
+            </button>
+            <button
+              class="tab-btn flex-1 py-4 text-center font-bold text-slate-600 border-t sm:border-t-0 sm:border-l border-slate-200 hover:bg-slate-100 focus:outline-none"
+              data-year="2028"
+            >
+              2028: Polish & Portfolio
+            </button>
+          </div>
+
+          <div class="p-5 sm:p-8 md:p-12">
+            <div id="roadmap-content" class="space-y-6 animate-fade-in">
+              <!-- Content injected via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm">
-        <div class="max-w-6xl mx-auto px-4">
-            <p>Designed for Future Rust Engineers passing out in 2028.</p>
-            <p class="mt-2 text-xs">Remember: The borrow checker is your friend, not your enemy.</p>
-        </div>
+      <div class="max-w-6xl mx-auto px-4">
+        <p>Designed for Future Rust Engineers passing out in 2028.</p>
+        <p class="mt-2 text-xs">
+          Remember: The borrow checker is your friend, not your enemy.
+        </p>
+      </div>
     </footer>
 
     <script>
-        // --- Data Storage & State ---
-        
-        const skillData = {
-            labels: ['Core Language Semantics', 'Async/Tokio Ecosystem', 'WebAssembly (WASM)', 'Backend Frameworks (Axum/Actix)', 'Systems/OS Internals', 'Tooling (Cargo/Clippy)'],
-            datasets: [
-                {
-                    label: 'Required Competency (2028 Entry-Level)',
-                    data: [95, 85, 70, 80, 75, 90],
-                    backgroundColor: 'rgba(234, 88, 12, 0.2)', // orange-600 low opacity
-                    borderColor: 'rgba(234, 88, 12, 1)', // orange-600
-                    pointBackgroundColor: 'rgba(234, 88, 12, 1)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgba(234, 88, 12, 1)',
-                    borderWidth: 2,
-                },
-                {
-                    label: 'Typical Beginner Profile',
-                    data: [40, 20, 10, 30, 20, 50],
-                    backgroundColor: 'rgba(148, 163, 184, 0.2)', // slate-400
-                    borderColor: 'rgba(148, 163, 184, 1)',
-                    pointBackgroundColor: 'rgba(148, 163, 184, 1)',
-                    pointBorderColor: '#fff',
-                    borderWidth: 2,
-                    borderDash: [5, 5]
-                }
-            ]
-        };
+      // --- Data Storage & State ---
 
-        const skillDescriptions = [
-            {
-                title: "Core Language Semantics",
-                desc: "Ownership, borrowing, lifetimes, traits, and macros. This is the non-negotiable foundation.",
-                bullets: ["Advanced understanding of the Borrow Checker", "Custom declarative and procedural macros", "Trait bounds and generic programming"],
-                target: "Mastery Required"
-            },
-            {
-                title: "Async/Tokio Ecosystem",
-                desc: "Modern Rust backend runs on asynchronous paradigms. Tokio is the industry standard runtime.",
-                bullets: ["Understanding Future traits and polling", "Managing async state and shared memory (Arc, Mutex)", "Spawning tasks and handling blocking IO"],
-                target: "High Proficiency"
-            },
-            {
-                title: "WebAssembly (WASM)",
-                desc: "Compiling Rust to run in the browser or on serverless edge networks.",
-                bullets: ["Using wasm-bindgen and web-sys", "Optimizing binary size for the web", "Interacting with JS APIs from Rust"],
-                target: "Functional Knowledge"
-            },
-            {
-                title: "Backend Frameworks",
-                desc: "Building REST/GraphQL APIs and microservices. Axum is highly recommended moving towards 2028.",
-                bullets: ["Routing, middleware, and state management", "Integrating with databases (SQLx, SeaORM)", "Structuring scalable application architecture"],
-                target: "High Proficiency"
-            },
-            {
-                title: "Systems/OS Internals",
-                desc: "Rust shines close to the metal. Understanding how it interacts with the OS is crucial.",
-                bullets: ["File I/O, networking (TCP/UDP), and IPC", "Understanding memory layouts and heap allocations", "Basic eBPF or embedded concepts (Optional but strong)"],
-                target: "Solid Understanding"
-            },
-            {
-                title: "Tooling & Best Practices",
-                desc: "Writing code is only half the job. Shipping reliable software is the other.",
-                bullets: ["Mastering Cargo workspaces and dependency management", "Strict adherence to Clippy lints and Rustfmt", "Setting up GitHub Actions/CI for Rust projects"],
-                target: "Mastery Required"
-            }
-        ];
+      const skillData = {
+        labels: [
+          "Core Language Semantics",
+          "Async/Tokio Ecosystem",
+          "WebAssembly (WASM)",
+          "Backend Frameworks (Axum/Actix)",
+          "Systems/OS Internals",
+          "Tooling (Cargo/Clippy)",
+        ],
+        datasets: [
+          {
+            label: "Required Competency (2028 Entry-Level)",
+            data: [95, 85, 70, 80, 75, 90],
+            backgroundColor: "rgba(234, 88, 12, 0.2)", // orange-600 low opacity
+            borderColor: "rgba(234, 88, 12, 1)", // orange-600
+            pointBackgroundColor: "rgba(234, 88, 12, 1)",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(234, 88, 12, 1)",
+            borderWidth: 2,
+          },
+          {
+            label: "Typical Beginner Profile",
+            data: [40, 20, 10, 30, 20, 50],
+            backgroundColor: "rgba(148, 163, 184, 0.2)", // slate-400
+            borderColor: "rgba(148, 163, 184, 1)",
+            pointBackgroundColor: "rgba(148, 163, 184, 1)",
+            pointBorderColor: "#fff",
+            borderWidth: 2,
+            borderDash: [5, 5],
+          },
+        ],
+      };
 
-        const resumeInsights = {
-            summary: "<strong>The Hook.</strong> Don't just list buzzwords. State your timeline ('passing out in 2028'), your specific focus area ('high-performance backend'), and your passion ('WebAssembly'). Keep it under 4 lines.",
-            skills: "<strong>The Filter.</strong> ATS (Applicant Tracking Systems) and engineering managers scan this first. Group skills logically. If you list 'Tokio' or 'Axum', you prove you know the <em>ecosystem</em>, not just the base language.",
-            projects: "<strong>The Proof (Crucial for Entry-Level).</strong> Because you lack formal industry experience, projects are everything. <br><br>Notice the bullet points: They don't just say 'Built a key-value store'. They highlight <em>how</em> it was built ('custom thread-pool', 'zero-copy serialization') and <em>tools used</em> ('Tokio', 'Serde'). Use metrics where possible.",
-            opensource: "<strong>The Differentiator.</strong> Rust has a deeply collaborative open-source culture. Even small contributions (fixing documentation, adding a lint) to established projects like Actix or Clippy show you can navigate large codebases and collaborate using Git.",
-            education: "<strong>The Formalities.</strong> Keep this concise. Highlight relevant coursework (Operating Systems, Distributed Systems) to show a strong computer science foundation, which Rust heavily relies upon."
-        };
+      const skillDescriptions = [
+        {
+          title: "Core Language Semantics",
+          desc: "Ownership, borrowing, lifetimes, traits, and macros. This is the non-negotiable foundation.",
+          bullets: [
+            "Advanced understanding of the Borrow Checker",
+            "Custom declarative and procedural macros",
+            "Trait bounds and generic programming",
+          ],
+          target: "Mastery Required",
+        },
+        {
+          title: "Async/Tokio Ecosystem",
+          desc: "Modern Rust backend runs on asynchronous paradigms. Tokio is the industry standard runtime.",
+          bullets: [
+            "Understanding Future traits and polling",
+            "Managing async state and shared memory (Arc, Mutex)",
+            "Spawning tasks and handling blocking IO",
+          ],
+          target: "High Proficiency",
+        },
+        {
+          title: "WebAssembly (WASM)",
+          desc: "Compiling Rust to run in the browser or on serverless edge networks.",
+          bullets: [
+            "Using wasm-bindgen and web-sys",
+            "Optimizing binary size for the web",
+            "Interacting with JS APIs from Rust",
+          ],
+          target: "Functional Knowledge",
+        },
+        {
+          title: "Backend Frameworks",
+          desc: "Building REST/GraphQL APIs and microservices. Axum is highly recommended moving towards 2028.",
+          bullets: [
+            "Routing, middleware, and state management",
+            "Integrating with databases (SQLx, SeaORM)",
+            "Structuring scalable application architecture",
+          ],
+          target: "High Proficiency",
+        },
+        {
+          title: "Systems/OS Internals",
+          desc: "Rust shines close to the metal. Understanding how it interacts with the OS is crucial.",
+          bullets: [
+            "File I/O, networking (TCP/UDP), and IPC",
+            "Understanding memory layouts and heap allocations",
+            "Basic eBPF or embedded concepts (Optional but strong)",
+          ],
+          target: "Solid Understanding",
+        },
+        {
+          title: "Tooling & Best Practices",
+          desc: "Writing code is only half the job. Shipping reliable software is the other.",
+          bullets: [
+            "Mastering Cargo workspaces and dependency management",
+            "Strict adherence to Clippy lints and Rustfmt",
+            "Setting up GitHub Actions/CI for Rust projects",
+          ],
+          target: "Mastery Required",
+        },
+      ];
 
-        const roadmapData = {
-            "2026": `
+      const resumeInsights = {
+        summary:
+          "<strong>The Hook.</strong> Don't just list buzzwords. State your timeline ('passing out in 2028'), your specific focus area ('high-performance backend'), and your passion ('WebAssembly'). Keep it under 4 lines.",
+        skills:
+          "<strong>The Filter.</strong> ATS (Applicant Tracking Systems) and engineering managers scan this first. Group skills logically. If you list 'Tokio' or 'Axum', you prove you know the <em>ecosystem</em>, not just the base language.",
+        projects:
+          "<strong>The Proof (Crucial for Entry-Level).</strong> Because you lack formal industry experience, projects are everything. <br><br>Notice the bullet points: They don't just say 'Built a key-value store'. They highlight <em>how</em> it was built ('custom thread-pool', 'zero-copy serialization') and <em>tools used</em> ('Tokio', 'Serde'). Use metrics where possible.",
+        opensource:
+          "<strong>The Differentiator.</strong> Rust has a deeply collaborative open-source culture. Even small contributions (fixing documentation, adding a lint) to established projects like Actix or Clippy show you can navigate large codebases and collaborate using Git.",
+        education:
+          "<strong>The Formalities.</strong> Keep this concise. Highlight relevant coursework (Operating Systems, Distributed Systems) to show a strong computer science foundation, which Rust heavily relies upon.",
+      };
+
+      const roadmapData = {
+        2026: `
                 <h3 class="text-2xl font-bold text-slate-800 mb-4">Focus: The Rust Core & Mental Model</h3>
                 <p class="text-slate-600 mb-6">Your goal this year is to fight the borrow checker and win. Do not rush into web frameworks until you understand memory management.</p>
                 <div class="space-y-4">
@@ -378,7 +608,7 @@
                     </div>
                 </div>
             `,
-            "2027": `
+        2027: `
                 <h3 class="text-2xl font-bold text-slate-800 mb-4">Focus: The Ecosystem & Concurrency</h3>
                 <p class="text-slate-600 mb-6">Now, step into the asynchronous world and start building network-connected applications.</p>
                 <div class="space-y-4">
@@ -405,7 +635,7 @@
                     </div>
                 </div>
             `,
-            "2028": `
+        2028: `
                 <h3 class="text-2xl font-bold text-slate-800 mb-4">Focus: Portfolio, Niche, & Application</h3>
                 <p class="text-slate-600 mb-6">It's graduation year. Time to build your "capstone" project and optimize your resume for recruiters.</p>
                 <div class="space-y-4">
@@ -431,77 +661,83 @@
                         </div>
                     </div>
                 </div>
-            `
+            `,
+      };
+
+      // --- Initialization & Logic ---
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // 1. Initialize Chart.js Radar Chart
+        const ctx = document.getElementById("skillRadarChart").getContext("2d");
+        const radarChart = new Chart(ctx, {
+          type: "radar",
+          data: skillData,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                angleLines: { color: "rgba(0, 0, 0, 0.1)" },
+                grid: { color: "rgba(0, 0, 0, 0.1)" },
+                pointLabels: {
+                  font: { size: 12, family: "Segoe UI" },
+                  color: "#475569", // slate-600
+                },
+                ticks: {
+                  display: false, // hide the numbers (0, 20, 40...)
+                  min: 0,
+                  max: 100,
+                },
+              },
+            },
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  font: { family: "Segoe UI" },
+                  color: "#1e293b",
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return context.dataset.label + ": " + context.raw + "%";
+                  },
+                },
+              },
+            },
+            onHover: (event, elements) => {
+              // Custom hover logic to update description card based on closest point
+              if (elements.length > 0) {
+                const index = elements[0].index;
+                updateSkillCard(index);
+              }
+            },
+          },
+        });
+
+        // Fallback click event for chart to update text block (better for mobile)
+        document.getElementById("skillRadarChart").onclick = function (evt) {
+          const res = radarChart.getElementsAtEventForMode(
+            evt,
+            "nearest",
+            { intersect: true },
+            true,
+          );
+          if (res.length > 0) {
+            updateSkillCard(res[0].index);
+          }
         };
 
-        // --- Initialization & Logic ---
+        function updateSkillCard(index) {
+          const data = skillDescriptions[index];
+          const card = document.getElementById("skill-detail-card");
 
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // 1. Initialize Chart.js Radar Chart
-            const ctx = document.getElementById('skillRadarChart').getContext('2d');
-            const radarChart = new Chart(ctx, {
-                type: 'radar',
-                data: skillData,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                            pointLabels: {
-                                font: { size: 12, family: 'Segoe UI' },
-                                color: '#475569' // slate-600
-                            },
-                            ticks: {
-                                display: false, // hide the numbers (0, 20, 40...)
-                                min: 0,
-                                max: 100
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                font: { family: 'Segoe UI' },
-                                color: '#1e293b'
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ' + context.raw + '%';
-                                }
-                            }
-                        }
-                    },
-                    onHover: (event, elements) => {
-                        // Custom hover logic to update description card based on closest point
-                        if (elements.length > 0) {
-                            const index = elements[0].index;
-                            updateSkillCard(index);
-                        }
-                    }
-                }
-            });
+          let bulletsHtml = data.bullets
+            .map((b) => `<li>&#10003; ${b}</li>`)
+            .join("");
 
-            // Fallback click event for chart to update text block (better for mobile)
-            document.getElementById('skillRadarChart').onclick = function(evt) {
-                const res = radarChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
-                if (res.length > 0) {
-                    updateSkillCard(res[0].index);
-                }
-            };
-
-            function updateSkillCard(index) {
-                const data = skillDescriptions[index];
-                const card = document.getElementById('skill-detail-card');
-                
-                let bulletsHtml = data.bullets.map(b => `<li>&#10003; ${b}</li>`).join('');
-                
-                card.innerHTML = `
+          card.innerHTML = `
                     <h3 class="text-xl font-bold text-slate-800 mb-2">${data.title}</h3>
                     <p class="text-slate-600 mb-4">${data.desc}</p>
                     <ul class="text-sm text-slate-700 space-y-2">
@@ -509,60 +745,74 @@
                     </ul>
                     <p class="text-xs text-orange-600 mt-4 font-semibold uppercase tracking-wider">Target Level: ${data.target}</p>
                 `;
+        }
+
+        // 2. Interactive Resume Logic
+        const resumeSections = document.querySelectorAll(".resume-section");
+        const insightPanel = document.getElementById("insight-content");
+
+        if (resumeSections.length > 0) {
+          resumeSections[0].classList.add("active");
+          const firstTargetId = resumeSections[0].getAttribute("data-target");
+          insightPanel.innerHTML = resumeInsights[firstTargetId];
+        }
+
+        resumeSections.forEach((section) => {
+          section.setAttribute("tabindex", "0");
+          section.addEventListener("click", function () {
+            // Remove active class from all
+            resumeSections.forEach((s) => s.classList.remove("active"));
+            // Add active to clicked
+            this.classList.add("active");
+
+            // Update insight text
+            const targetId = this.getAttribute("data-target");
+            insightPanel.innerHTML = resumeInsights[targetId];
+          });
+
+          section.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              this.click();
             }
-
-            // 2. Interactive Resume Logic
-            const resumeSections = document.querySelectorAll('.resume-section');
-            const insightPanel = document.getElementById('insight-content');
-
-            resumeSections.forEach(section => {
-                section.addEventListener('click', function() {
-                    // Remove active class from all
-                    resumeSections.forEach(s => s.classList.remove('active'));
-                    // Add active to clicked
-                    this.classList.add('active');
-                    
-                    // Update insight text
-                    const targetId = this.getAttribute('data-target');
-                    insightPanel.innerHTML = resumeInsights[targetId];
-                });
-            });
-
-            // 3. Roadmap Tab Logic
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const roadmapContent = document.getElementById('roadmap-content');
-
-            // Set initial state
-            roadmapContent.innerHTML = roadmapData["2026"];
-
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Update styling
-                    tabBtns.forEach(b => {
-                        b.classList.remove('active');
-                        b.classList.remove('bg-orange-600', 'text-white');
-                        b.classList.add('text-slate-600', 'hover:bg-slate-100');
-                    });
-                    
-                    this.classList.add('active');
-                    this.classList.remove('text-slate-600', 'hover:bg-slate-100');
-                    // Note: 'active' class in CSS handles the orange background, but adding Tailwind classes explicitly for clarity if needed, relying on custom CSS here.
-
-                    // Update content
-                    const year = this.getAttribute('data-year');
-                    
-                    // Add small animation effect
-                    roadmapContent.style.opacity = 0;
-                    setTimeout(() => {
-                        roadmapContent.innerHTML = roadmapData[year];
-                        roadmapContent.style.transition = 'opacity 0.3s ease';
-                        roadmapContent.style.opacity = 1;
-                    }, 150);
-                });
-            });
+          });
         });
+
+        // 3. Roadmap Tab Logic
+        const tabBtns = document.querySelectorAll(".tab-btn");
+        const roadmapContent = document.getElementById("roadmap-content");
+
+        // Set initial state
+        roadmapContent.innerHTML = roadmapData["2026"];
+
+        tabBtns.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            // Update styling
+            tabBtns.forEach((b) => {
+              b.classList.remove("active");
+              b.classList.remove("bg-orange-600", "text-white");
+              b.classList.add("text-slate-600", "hover:bg-slate-100");
+            });
+
+            this.classList.add("active");
+            this.classList.remove("text-slate-600", "hover:bg-slate-100");
+            // Note: 'active' class in CSS handles the orange background, but adding Tailwind classes explicitly for clarity if needed, relying on custom CSS here.
+
+            // Update content
+            const year = this.getAttribute("data-year");
+
+            // Add small animation effect
+            roadmapContent.style.opacity = 0;
+            setTimeout(() => {
+              roadmapContent.innerHTML = roadmapData[year];
+              roadmapContent.style.transition = "opacity 0.3s ease";
+              roadmapContent.style.opacity = 1;
+            }, 150);
+          });
+        });
+      });
     </script>
-</body>
+  </body>
 </html>
 
 ```
